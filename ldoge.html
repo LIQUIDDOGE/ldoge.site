@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LDoge (Doge on Liquid) - The Future is Wow!</title>
+    <style>
+        :root {
+            --primary-color-rgb: 0, 198, 208; 
+            --primary-color: rgb(var(--primary-color-rgb));
+            --secondary-color-rgb: 0, 165, 173;
+            --secondary-color: rgb(var(--secondary-color-rgb));
+            --accent-color-rgb: 240, 219, 79;
+            --accent-color: rgb(var(--accent-color-rgb));
+            --text-color: #ffffff;
+            --dark-text-color: #1a1a1a; 
+            
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --bg-glass-border: rgba(255, 255, 255, 0.1);
+            --backdrop-blur: 15px;
+
+            --font-primary: 'Poppins', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+            --particle-color1-rgb: 0, 220, 255; 
+            --particle-color2-rgb: 220, 50, 255; 
+            --particle-color3-rgb: var(--accent-color-rgb); 
+            --particle-color4-rgb: 255, 255, 255; 
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: #0c101f; 
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before { 
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(var(--primary-color-rgb), 0.25), transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(var(--secondary-color-rgb), 0.25), transparent 40%),
+                #0c101f;
+            background-size: 150% 150%;
+            animation: gradientBG 40s ease-in-out infinite; 
+            z-index: -2;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .particles { 
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .particle { 
+            position: absolute;
+            background-color: rgba(var(--accent-color-rgb), 0.15); 
+            border-radius: 50%;
+            animation: floatParticleAnim 20s infinite ease-in-out;
+            opacity: 0; 
+        }
+        
+        @keyframes floatParticleAnim { 
+            0%, 100% { transform: translateY(20px) scale(0.6); opacity: 0; }
+            10% { opacity: 0.5; } 
+            50% { transform: translateY(-20px) scale(1); opacity: 0.2; }
+            90% { opacity: 0.5; } 
+        }
+
+        .mouse-follower-particle {
+            position: fixed; 
+            pointer-events: none; 
+            border-radius: 50%;
+            z-index: 9999; 
+            animation: shrinkFadeOutParticleAnim 0.7s forwards ease-out;
+        }
+
+        @keyframes shrinkFadeOutParticleAnim { 
+            from {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        nav {
+            background: rgba(12, 16, 31, 0.6); 
+            backdrop-filter: blur(var(--backdrop-blur));
+            -webkit-backdrop-filter: blur(var(--backdrop-blur));
+            padding: 1.2rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(var(--primary-color-rgb), 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        nav .logo { 
+            font-size: 1.5em; 
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        nav .logo img { 
+            height: 40px; 
+            margin-right: 12px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(var(--primary-color-rgb), 0.3);
+        }
+        nav .logo span { 
+             text-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.3);
+             font-size: 1.1em; 
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 35px; 
+        }
+
+        nav ul li a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95em;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, rgba(var(--accent-color-rgb),0.7), rgba(var(--accent-color-rgb),1));
+            border-radius: 2px;
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        nav ul li a:hover {
+            color: var(--text-color);
+            text-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.5);
+        }
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        #hero { 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center; 
+            padding: 100px 20px 0 20px; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        #hero .hero-doge-image { 
+            width: clamp(200px, 30vw, 300px);
+            height: auto;
+            margin-bottom: 35px;
+            border-radius: 25px;
+            box-shadow: 0 0 40px rgba(var(--primary-color-rgb), 0.3), 0 0 60px rgba(var(--accent-color-rgb), 0.2);
+            animation: heroImageFloatAnimRestored 4s ease-in-out infinite alternate;
+        }
+        @keyframes heroImageFloatAnimRestored { 
+            from { transform: translateY(-10px) rotateZ(-1deg); }
+            to { transform: translateY(10px) rotateZ(1deg); }
+        }
+        
+        #hero h1 {
+            font-family: 'Courier New', Courier, monospace; 
+            font-size: clamp(2.5em, 6vw, 4.5em); 
+            margin-bottom: 0.3em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+            line-height: 1.2;
+            background: linear-gradient(90deg, var(--text-color), rgba(var(--accent-color-rgb),0.9));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(var(--accent-color-rgb), 0.15);
+            min-height: 1.2em; 
+        }
+
+        #hero .subtitle {
+            font-size: clamp(1.1em, 2.5vw, 1.6em);
+            margin-bottom: 2em;
+            font-weight: 300;
+            color: rgba(255,255,255,0.75);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center; 
+        }
+
+        .cta-button { 
+            display: inline-block;
+            background: transparent;
+            color: var(--accent-color);
+            padding: 14px 38px;
+            text-decoration: none;
+            font-size: 1.1em;
+            border-radius: 50px;
+            border: 2px solid var(--accent-color);
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); 
+            font-weight: 600;
+            margin-top: 25px;
+            box-shadow: 0 0 20px rgba(var(--accent-color-rgb), 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .cta-button::before { 
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 0%; height: 100%;
+            background: var(--accent-color);
+            transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: -1;
+        }
+        .cta-button:hover {
+            color: var(--dark-text-color);
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(var(--accent-color-rgb), 0.4);
+        }
+        .cta-button:hover::before {
+            width: 100%;
+        }
+
+        section.scroll-animate { 
+            padding: 100px 0; 
+            text-align: center;
+            position: relative;
+            opacity: 0; 
+            transform: translateY(40px);
+            transition: opacity 0.9s ease-out, transform 0.9s ease-out; 
+        }
+        section.in-view { 
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        section:not(#hero) h2 { 
+            font-size: clamp(2em, 4.5vw, 2.8em);
+            margin-bottom: 50px; 
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text-color);
+        }
+        section:not(#hero) h2::after { 
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(var(--accent-color-rgb),0.6), rgba(var(--accent-color-rgb),1));
+            margin: 12px auto 0;
+            border-radius: 3px;
+        }
+
+        .content-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(var(--backdrop-blur));
+            -webkit-backdrop-filter: blur(var(--backdrop-blur));
+            border: 1px solid var(--bg-glass-border);
+            border-radius: 15px;
+            padding: 30px; 
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 40px 0 rgba(var(--accent-color-rgb),0.1);
+            border: 1px solid rgba(var(--accent-color-rgb), 0.3);
+        }
+
+        #about .container > p { 
+            max-width: 700px;
+            margin: 0 auto 20px auto;
+            font-size: 1.05em; 
+            line-height: 1.8;
+            color: rgba(255,255,255,0.7);
+        }
+        #about .content-card { 
+            text-align: left;
+            padding: 40px;
+        }
+
+        #faq .faq-item {
+            background: var(--bg-glass);
+            backdrop-filter: blur(var(--backdrop-blur));
+            -webkit-backdrop-filter: blur(var(--backdrop-blur));
+            border: 1px solid var(--bg-glass-border);
+            margin-bottom: 15px;
+            border-radius: 10px;
+            text-align: left;
+            overflow: hidden; 
+            transition: box-shadow 0.3s ease;
+        }
+        #faq .faq-item:hover {
+            box-shadow: 0 0 20px rgba(var(--accent-color-rgb),0.1);
+            border-color: rgba(var(--accent-color-rgb), 0.2);
+        }
+        #faq .faq-item .faq-question {
+            padding: 18px 25px; 
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            color: var(--text-color);
+            transition: background-color 0.3s ease;
+        }
+        #faq .faq-item .faq-question:hover {
+            background-color: rgba(var(--accent-color-rgb),0.05);
+        }
+        #faq .faq-item .faq-question::after {
+            content: '+';
+            font-family: monospace; 
+            font-size: 1.5em;
+            line-height: 1;
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%) rotate(0deg);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            color: var(--accent-color);
+        }
+        #faq .faq-item.active .faq-question::after {
+            transform: translateY(-50%) rotate(45deg);
+        }
+        #faq .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 1, 0.5, 1), padding 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95em;
+        }
+        #faq .faq-item.active .faq-answer {
+            max-height: 350px; 
+            padding-top: 5px;
+            padding-bottom: 20px;
+        }
+
+        #community .container > p { 
+            margin-bottom: 35px;
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.8);
+        }
+        #community .social-links a {
+            margin: 0 10px; 
+            display: inline-flex; 
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color); 
+            text-decoration: none;
+            width: 50px; 
+            height: 50px; 
+            border: 2px solid rgba(var(--accent-color-rgb),0.4);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(var(--accent-color-rgb),0.1);
+        }
+        #community .social-links a svg {
+            width: 55%; 
+            height: 55%;
+            fill: currentColor; 
+            transition: fill 0.3s ease;
+        }
+        #community .social-links a:hover {
+            background-color: var(--accent-color);
+            color: var(--dark-text-color); 
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 0 25px rgba(var(--accent-color-rgb),0.3);
+            border-color: var(--accent-color);
+        }
+
+        footer {
+            background-color: rgba(12, 16, 31, 0.8); 
+            backdrop-filter: blur(5px);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 25px 0; 
+            font-size: 0.9em;
+            border-top: 1px solid rgba(var(--primary-color-rgb), 0.1);
+        }
+        footer p {
+            margin: 6px 0;
+        }
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        footer a:hover {
+            color: var(--text-color);
+            text-shadow: 0 0 8px rgba(var(--accent-color-rgb), 0.5);
+        }
+
+        @media (max-width: 768px) {
+            nav .container {
+                flex-direction: column; 
+                gap: 10px;
+            }
+            nav .logo {
+                font-size: 1.5em; 
+            }
+            nav ul {
+                 flex-wrap: wrap; 
+                 justify-content: center; 
+                 margin-left: 0; 
+            }
+            nav ul li {
+                margin: 5px 10px; 
+            }
+            nav ul li:first-child {
+                 margin-left: 10px; 
+            }
+             #hero h1 {
+                letter-spacing: 1px;
+                 font-size: clamp(2.2em, 7vw, 3em);
+            }
+            section {
+                padding: 80px 0;
+            }
+            section h2 {
+                margin-bottom: 40px;
+            }
+            .content-card {
+                padding: 25px;
+            }
+            #about .content-card {
+                padding: 30px;
+            }
+            #community .social-links a {
+                width: 45px;
+                height: 45px;
+                margin: 0 8px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="particles"></div> 
+
+    <nav>
+        <div class="container">
+            <a href="#hero" class="logo">
+                <img src="images/ldoge-mascot.png" alt="LDoge Icon">
+                <span>$LDOGE</span>
+            </a>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#community">Community</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="hero"> 
+        <div class="container">
+            <img src="images/ldoge-mascot.png" alt="LDoge Mascot - The Future of Wow" class="hero-doge-image">
+            <h1 id="hero-title">Enter the Dogeverse</h1>
+            <p class="subtitle">Experience the next wave of meme innovation. Sleek, Secure, Stellar. The future is LDoge.</p>
+            <a href="#about" class="cta-button">Explore LDoge</a>
+        </div>
+    </section>
+
+    <section id="about" class="scroll-animate"> 
+        <div class="container">
+            <h2>The Genesis of LDoge</h2>
+            <div class="content-card">
+                <p>LDoge emerges from the digital cosmos, a beacon of futuristic meme culture. We're not just redefining memecoins; we're sculpting a new reality where community, cutting-edge technology, and the iconic "wow" converge. Inspired by the Doge legacy, LDoge propels it into a new dimension.</p>
+                <p>Our core is a decentralized, transparent ethos, fostering an ecosystem where every member contributes to our trajectory. Join us as we pioneer this new frontier, crafting a vibrant, engaging, and forward-thinking digital experience. This is more than a coin; it's the dawn of the LDoge era.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="scroll-animate"> 
+        <div class="container">
+            <h2>Illuminating Queries (FAQ)</h2>
+            <div class="faq-item">
+                <div class="faq-question">What is the vision behind LDoge?</div>
+                <div class="faq-answer">
+                    <p>LDoge is a true community launch, born from the spirit of Doge. We are innovating on new technology because we believe platforms like Hyperliquid are the future of decentralized finance, and we want to bring the community along for the ride.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How can I buy $LDOGE?</div>
+                <div class="faq-answer">
+                    <p>The official public launch will be announced on our X (Twitter) account. The launch will take place on the Liquidlaunch platform, and shortly after, bonding will be available on HyperSwap.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How can we trust the project?</div>
+                <div class="faq-answer">
+                    <p>We are committed to full transparency and security. To ensure this, our smart contract is scheduled for a professional audit. Furthermore, the team will only purchase a very small amount of the token supply for support, and this amount will be locked and never sold.</p>
+                </div>
+            </div>
+             <div class="faq-item">
+                <div class="faq-question">Where can I get the latest updates?</div>
+                <div class="faq-answer">
+                    <p>For all the latest news, launch dates, and important announcements, please follow our official X (Twitter) account linked on this page. It is the single best source for up-to-date information.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="community" class="scroll-animate"> 
+        <div class="container">
+            <h2>Connect to the LDoge Nexus</h2>
+            <p>Become an integral part of our expanding universe. Follow our transmissions across social platforms for real-time updates, discussions, and exclusive content.</p>
+            <div class="social-links" style="margin-top: 30px;">
+                <a href="#" target="_blank" title="Telegram">
+                    <svg viewBox="0 0 24 24" role="img" aria-label="Telegram icon">
+                      <path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.58c-.23.87-1.03 1.08-1.74.7L9.78 18.65z"/>
+                    </svg>
+                </a>
+                <a href="https://x.com/doge_on_liquid" target="_blank" title="X (Twitter)">
+                    <svg viewBox="0 0 24 24" role="img" aria-label="X icon">
+                        <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.931ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                    </svg>
+                </a>
+                <a href="https://www.youtube.com/@liquiddoge" target="_blank" title="YouTube">
+                    <svg role="img" viewBox="0 0 24 24" aria-label="YouTube icon">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© <script>document.write(new Date().getFullYear())</script> LDoge Initiative. All Rights Reserved in this Timeline.</p>
+            <p>Cryptocurrency investments are subject to market dynamics. Participate wisely. Not financial counsel.</p>
+            <p>Evolving from the legacy of <a href="https://dogecoin.com/" target="_blank" rel="noopener noreferrer">Dogecoin</a>.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const currentlyActive = document.querySelector('.faq-item.active');
+                if (currentlyActive && currentlyActive !== item) {
+                    currentlyActive.classList.remove('active');
+                }
+                item.classList.toggle('active');
+            });
+        });
+
+        // Scroll Animations for Sections
+        const scrollSections = document.querySelectorAll('section.scroll-animate'); 
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 
+        };
+        const observer = new IntersectionObserver((entries, obs) => { 
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, observerOptions);
+        scrollSections.forEach(section => { 
+            observer.observe(section);
+        });
+
+        // Static Background Particles Generation
+        const staticParticlesContainer = document.querySelector('.particles');
+        const numStaticParticles = 25; 
+        for (let i = 0; i < numStaticParticles; i++) {
+            let particle = document.createElement('div');
+            particle.classList.add('particle'); 
+            let size = Math.random() * 4 + 1.5; 
+            particle.style.width = `${size}px`; 
+            particle.style.height = particle.style.width;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animationName = 'floatParticleAnim'; 
+            particle.style.animationDuration = `${Math.random() * 15 + 15}s`; 
+            particle.style.animationDelay = `-${Math.random() * 25}s`; 
+            staticParticlesContainer.appendChild(particle);
+        }
+
+        // Mouse Follower Particle Effect
+        const futuristicParticleColors = [
+            `rgba(var(--particle-color1-rgb), 0.9)`, 
+            `rgba(var(--particle-color2-rgb), 0.9)`, 
+            `rgba(var(--particle-color3-rgb), 1)`,   
+            `rgba(var(--particle-color4-rgb), 0.8)`  
+        ];
+        let canCreateParticle = true; 
+        document.addEventListener('mousemove', function(e) {
+            if (!canCreateParticle) return;
+            canCreateParticle = false;
+            setTimeout(() => {
+                canCreateParticle = true;
+            }, 30); 
+            const particle = document.createElement('div');
+            particle.classList.add('mouse-follower-particle'); 
+            particle.style.animationName = 'shrinkFadeOutParticleAnim'; 
+            document.body.appendChild(particle);
+            const size = Math.random() * 8 + 4; 
+            const color = futuristicParticleColors[Math.floor(Math.random() * futuristicParticleColors.length)];
+            const offsetX = (Math.random() - 0.5) * 20; 
+            const offsetY = (Math.random() - 0.5) * 20; 
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${e.clientX + offsetX}px`;
+            particle.style.top = `${e.clientY + offsetY}px`;
+            particle.style.backgroundColor = color;
+            particle.style.boxShadow = `0 0 ${size * 1.5}px ${size * 0.5}px ${color.replace('0.9', '0.3').replace('1)', '0.3)')}`;
+            setTimeout(() => {
+                particle.remove();
+            }, 700); 
+        });
+
+        // Decoder Text Effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroTitle = document.getElementById('hero-title');
+            if(heroTitle) {
+                const originalText = heroTitle.textContent;
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ*#<>_[]';
+                let interval = null;
+                let iteration = 0;
+
+                const startDecoderEffect = () => {
+                    heroTitle.textContent = originalText
+                        .split('')
+                        .map((letter, index) => {
+                            if (index < iteration) {
+                                return originalText[index];
+                            }
+                            if (letter === ' ') return ' ';
+                            return chars[Math.floor(Math.random() * chars.length)];
+                        })
+                        .join('');
+
+                    if (iteration >= originalText.length) {
+                        clearInterval(interval);
+                        // Optional: Reset font after animation
+                        // heroTitle.style.fontFamily = `var(--font-primary)`; 
+                    }
+                    
+                    iteration += originalText.length / 100; 
+                };
+                
+                setTimeout(() => {
+                    interval = setInterval(startDecoderEffect, 30);
+                }, 300);
+            }
+        });
+
+    </script>
+</body>
+</html>
