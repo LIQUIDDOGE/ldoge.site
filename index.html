@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -246,8 +247,34 @@
             text-align: center; 
         }
 
+        .cta-button-primary {
+            display: block; /* Makes the button take its own line */
+            max-width: 320px; /* Constrains width */
+            margin-left: auto;  /* Centers the block */
+            margin-right: auto; /* Centers the block */
+            background: var(--accent-color); 
+            color: var(--dark-text-color);
+            padding: 16px 42px; 
+            text-decoration: none;
+            font-size: 1.3em; 
+            border-radius: 50px;
+            border: 2px solid var(--accent-color);
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            font-weight: 700; 
+            margin-top: 25px; 
+            box-shadow: 0 5px 20px rgba(var(--accent-color-rgb), 0.3);
+            text-transform: uppercase;
+        }
+        .cta-button-primary:hover {
+            transform: translateY(-4px) scale(1.05); 
+            box-shadow: 0 8px 30px rgba(var(--accent-color-rgb), 0.5);
+        }
+        
         .cta-button { 
-            display: inline-block;
+            display: block; /* Makes the button take its own line */
+            max-width: 320px; /* Constrains width to match primary */
+            margin-left: auto; /* Centers the block */
+            margin-right: auto; /* Centers the block */
             background: transparent;
             color: var(--accent-color);
             padding: 14px 38px;
@@ -257,7 +284,7 @@
             border: 2px solid var(--accent-color);
             transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); 
             font-weight: 600;
-            margin-top: 25px;
+            margin-top: 15px; /* Spacing between the buttons */
             box-shadow: 0 0 20px rgba(var(--accent-color-rgb), 0.2);
             position: relative;
             overflow: hidden;
@@ -520,6 +547,9 @@
             <img src="images/ldoge-mascot.png" alt="LDoge Mascot - The Future of Wow" class="hero-doge-image">
             <h1 id="hero-title">Enter the Dogeverse</h1>
             <p class="subtitle">Experience the next wave of meme innovation. Sleek, Secure, Stellar. The future is LDoge.</p>
+            
+            <a href="https://dev.liquidlaunch.app/token/0xdfb81bf9d91a59348fa2549b338ea4b313fa17de" target="_blank" class="cta-button-primary">Buy Here</a>
+            
             <a href="#about" class="cta-button">Explore LDoge</a>
         </div>
     </section>
@@ -701,8 +731,6 @@
 
                     if (iteration >= originalText.length) {
                         clearInterval(interval);
-                        // Optional: Reset font after animation
-                        // heroTitle.style.fontFamily = `var(--font-primary)`; 
                     }
                     
                     iteration += originalText.length / 100; 
